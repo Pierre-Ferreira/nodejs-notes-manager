@@ -37,32 +37,35 @@ const addNote = (title, body) => {
 
 const getAll = () => {
   console.log('SHOWING ALL')
-  let notes = JSON.parse(fs.readFileSync('notes-data.json')) || []
+  let notes = fetchNotes() || []
   notes.forEach(x => {
     console.log('--------------')
     console.log('Title:', x.title)
     console.log('Body:', x.body)
   })
+  console.log('--------------')
+  console.log('EOF')
 }
 
 const readNote = (title) => {
   console.log("Read", title)
-  let notes = JSON.parse(fs.readFileSync('notes-data.json')) || []
-  notes.forEach(x => {
-    if (x.title === title) {
-      console.log('Title:', x.title)
-      console.log('Body:', x.body)
-    }
-  })
+  let notes = fetchNotes() || []
+  let note = notes.filter(x => x.title === title)
+  if (note.length !== 0) {
+    console.log('--------------')
+    console.log('Title:', note[0].title)
+    console.log('Body:', note[0].body)
+  } else {
+    console.log('--------------')
+    console.log(`Title "${title}" not found!`)
+  }
 };
 
 const removeNote = (title) => {
   console.log('Remove:', title)
-  let notes = JSON.parse(fs.readFileSync('notes-data.json')) || []
-  let newNotes = notes.filter(x => {
-    if (x.title !== title) return true
-  })
-  fs.writeFileSync('notes-data.json', JSON.stringify(newNotes))
+  let notes = fetchNotes() || []
+  let newNotes = notes.filter(x => x.title !== title)
+  saveNotes(newNotes)
 };
 
 module.exports = {
