@@ -1,4 +1,3 @@
-console.log('starting notes.js');
 const fs = require('fs')
 
 const fetchNotes = () => {
@@ -18,7 +17,6 @@ const saveNotes = (notes) => {
 }
 
 const addNote = (title, body) => {
-  console.log('Adding:',title, body)
 
   let notes = fetchNotes()
 
@@ -36,36 +34,20 @@ const addNote = (title, body) => {
 };
 
 const getAll = () => {
-  console.log('SHOWING ALL')
-  let notes = fetchNotes()
-  notes.forEach(x => {
-    console.log('--------------')
-    console.log('Title:', x.title)
-    console.log('Body:', x.body)
-  })
-  console.log('--------------')
-  console.log('EOF')
+  return fetchNotes()
 }
 
 const readNote = (title) => {
-  console.log("Read", title)
   let notes = fetchNotes()
-  let note = notes.filter(x => x.title === title)
-  if (note.length !== 0) {
-    console.log('--------------')
-    console.log('Title:', note[0].title)
-    console.log('Body:', note[0].body)
-  } else {
-    console.log('--------------')
-    console.log(`Title "${title}" not found!`)
-  }
+  return notes.filter(x => x.title === title)[0]
+
 };
 
 const removeNote = (title) => {
-  console.log('Remove:', title)
   let notes = fetchNotes()
   let newNotes = notes.filter(x => x.title !== title)
   saveNotes(newNotes)
+  return (notes.length !== newNotes.length)
 };
 
 module.exports = {
